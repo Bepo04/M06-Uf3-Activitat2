@@ -1,7 +1,5 @@
 package com.elhueso.PicaPolloTCG.Controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -9,14 +7,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.elhueso.PicaPolloTCG.DTO.CardCreateDTO;
 import com.elhueso.PicaPolloTCG.DTO.CardDTO;
 import com.elhueso.PicaPolloTCG.Services.CardService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -37,10 +37,16 @@ public class RESTController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Mono<CardDTO>> findById(@PathVariable String id){
+    public ResponseEntity<Mono<CardDTO>> findById(@PathVariable String id) {
         Mono<CardDTO> cardDTO = cardService.findById(id);
-        if(cardDTO == null) return ResponseEntity.notFound().build();
+        if (cardDTO == null)
+            return ResponseEntity.notFound().build();
         return ResponseEntity.ok(cardDTO);
+    }
+
+    @GetMapping("/products/search")
+    public Flux<CardDTO> searchByName(@RequestParam String name) {
+        return cardService.findByNameLike(name);
     }
 
     @PostMapping(value = "/products")
@@ -50,10 +56,12 @@ public class RESTController {
     }
 
     @PatchMapping(value = "/products")
-    public ResponseEntity<Mono<CardDTO>> updateCard(@RequestBody CardDTO cardDTO){
+    public ResponseEntity<Mono<CardDTO>> updateCard(@RequestBody CardDTO cardDTO) {
         Mono<CardDTO> updated = cardService.update(cardDTO);
         return ResponseEntity.ok(updated);
     }
+    
+    
 
     @DeleteMapping(value = "/products")
     public ResponseEntity<Mono<String>> deleteCard(@PathVariable String id){

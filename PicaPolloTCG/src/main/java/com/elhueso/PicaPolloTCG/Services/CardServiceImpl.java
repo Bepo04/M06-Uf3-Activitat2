@@ -1,11 +1,14 @@
 package com.elhueso.PicaPolloTCG.Services;
 
+import java.util.regex.Pattern;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.elhueso.PicaPolloTCG.DTO.CardCreateDTO;
 import com.elhueso.PicaPolloTCG.DTO.CardDTO;
 import com.elhueso.PicaPolloTCG.Mappers.CardMapper;
+import com.elhueso.PicaPolloTCG.Model.Card;
 import com.elhueso.PicaPolloTCG.Repositories.CardRepo;
 
 import reactor.core.publisher.Flux;
@@ -40,7 +43,15 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public Mono<CardDTO> update(CardDTO dtoCard) {
-        return repo.findById(dtoCard.id()).map(mapper::toDTO);
+        return repo.findById(dtoCard.id()).flatMap(card -> {
+            Card updated = mapper.toEntity(dtoCard);
+            return repo.save(updated);
+        }).map(mapper::toDTO);
+    }
+    @Override
+    public Flux<CardDTO> findByNameLike(String name) {
+        String regex = ".*" + Pattern.quote(name) + ".*";
+        return repo.findByName(regex).map(mapper::toDTO);
     }
 
     @Override

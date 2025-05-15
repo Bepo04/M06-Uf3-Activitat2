@@ -1,5 +1,6 @@
 package com.elhueso.PicaPolloTCG.Services;
 
+
 import com.elhueso.PicaPolloTCG.DTO.CardCreateDTO;
 import com.elhueso.PicaPolloTCG.DTO.CardDTO;
 
@@ -13,5 +14,7 @@ public interface CardService {
     public Flux<CardDTO> findAll();
     public Mono<CardDTO> update(CardDTO dtoCard);
     public Mono<Void> delete(String id);
+    
+    Flux<CardDTO> findByNameLike(String name);
 
 }
