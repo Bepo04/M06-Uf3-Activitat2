@@ -31,7 +31,7 @@ public class RESTController {
         this.cardService = cardService;
     }
 
-    @GetMapping(value = "/products")
+    @GetMapping(value = "/cards")
     public ResponseEntity<Flux<CardDTO>> getAllCards(){
         return ResponseEntity.ok(cardService.findAll());
     }
@@ -44,26 +44,25 @@ public class RESTController {
         return ResponseEntity.ok(cardDTO);
     }
 
-    @GetMapping("/products/search")
+    @GetMapping("/cards/search")
     public Flux<CardDTO> searchByName(@RequestParam String name) {
         return cardService.findByNameLike(name);
     }
 
-    @PostMapping(value = "/products")
+    @PostMapping(value = "/cards")
     public ResponseEntity<Mono<CardDTO>> saveCard(@RequestBody CardCreateDTO cardCreateDTO){
         Mono<CardDTO> saved = cardService.save(cardCreateDTO);
         return ResponseEntity.ok(saved); 
     }
 
-    @PatchMapping(value = "/products")
+    @PatchMapping(value = "/cards")
     public ResponseEntity<Mono<CardDTO>> updateCard(@RequestBody CardDTO cardDTO) {
         Mono<CardDTO> updated = cardService.update(cardDTO);
         return ResponseEntity.ok(updated);
     }
     
     
-
-    @DeleteMapping(value = "/products")
+    @DeleteMapping(value = "/cards")
     public ResponseEntity<Mono<String>> deleteCard(@PathVariable String id){
         cardService.delete(id);
         return ResponseEntity.ok(Mono.just("La carta ha sigut borrada."));
