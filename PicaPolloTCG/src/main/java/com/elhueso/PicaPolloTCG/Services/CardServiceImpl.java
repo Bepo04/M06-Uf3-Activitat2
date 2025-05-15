@@ -3,6 +3,7 @@ package com.elhueso.PicaPolloTCG.Services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.elhueso.PicaPolloTCG.DTO.CardCreateDTO;
 import com.elhueso.PicaPolloTCG.DTO.CardDTO;
 import com.elhueso.PicaPolloTCG.Mappers.CardMapper;
 import com.elhueso.PicaPolloTCG.Repositories.CardRepo;
@@ -23,8 +24,8 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public Mono<CardDTO> save(CardDTO dtoCard) {
-        return repo.save(mapper.toEntity(dtoCard)).map(mapper::toDTO);
+    public Mono<CardDTO> save(CardCreateDTO dtoCard) {
+        return repo.save(mapper.cardCreateDTOTOCard(dtoCard)).map(mapper::toDTO);
     }
 
     @Override

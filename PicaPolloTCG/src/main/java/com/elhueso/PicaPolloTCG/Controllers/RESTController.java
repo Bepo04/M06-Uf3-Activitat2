@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.elhueso.PicaPolloTCG.DTO.CardCreateDTO;
 import com.elhueso.PicaPolloTCG.DTO.CardDTO;
 import com.elhueso.PicaPolloTCG.Services.CardService;
 
@@ -43,8 +44,8 @@ public class RESTController {
     }
 
     @PostMapping(value = "/products")
-    public ResponseEntity<Mono<CardDTO>> saveCard(@RequestBody CardDTO cardDTO){
-        Mono<CardDTO> saved = cardService.save(cardDTO);
+    public ResponseEntity<Mono<CardDTO>> saveCard(@RequestBody CardCreateDTO cardCreateDTO){
+        Mono<CardDTO> saved = cardService.save(cardCreateDTO);
         return ResponseEntity.ok(saved); 
     }
 
