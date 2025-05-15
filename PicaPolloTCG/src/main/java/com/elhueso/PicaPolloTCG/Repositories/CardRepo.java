@@ -1,4 +1,4 @@
-package com.elhueso.PicaPolloTCG.Mappers;
+package com.elhueso.PicaPolloTCG.Repositories;
 
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
@@ -8,7 +8,6 @@ import com.elhueso.PicaPolloTCG.Model.Card;
 
 @Repository
 @EnableReactiveMongoRepositories
-public interface XXXXXRepo extends ReactiveMongoRepository<Card, String> {
-
+public interface CardRepo extends ReactiveMongoRepository<Card, String>{
     
 }
