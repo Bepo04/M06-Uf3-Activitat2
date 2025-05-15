@@ -43,8 +43,7 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public Mono<Card> update(CardDTO dtoCard) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        return repo.findById(dtoCard.id()).map(std -> mapper.)
     }
 
     @Override
