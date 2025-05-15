@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import com.elhueso.PicaPolloTCG.DTO.CardDTO;
 import com.elhueso.PicaPolloTCG.Mappers.CardMapper;
-import com.elhueso.PicaPolloTCG.Model.Card;
 import com.elhueso.PicaPolloTCG.Repositories.CardRepo;
 
 import reactor.core.publisher.Flux;
@@ -24,33 +23,27 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public Mono<Card> save(CardDTO dtoCard) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+    public Mono<CardDTO> save(CardDTO dtoCard) {
+        return repo.save(mapper.toEntity(dtoCard)).map(mapper::toDTO);
     }
 
     @Override
-    public Mono<Card> findById(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+    public Mono<CardDTO> findById(String id) {
+        return repo.findById(id).map(mapper::toDTO);
     }
 
     @Override
-    public Flux<Card> findAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+    public Flux<CardDTO> findAll() {
+        return repo.findAll().map(mapper::toDTO);
     }
 
     @Override
-    public Mono<Card> update(CardDTO dtoCard) {
-        return repo.findById(dtoCard.id()).map(std -> mapper.)
+    public Mono<CardDTO> update(CardDTO dtoCard) {
+        return repo.findById(dtoCard.id()).map(mapper::toDTO);
     }
 
     @Override
     public Mono<Void> delete(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+         return repo.findById(id).switchIfEmpty(Mono.error(new IllegalArgumentException("Card not found"))).flatMap(card -> repo.deleteById(id));
     }
-
-    
 }
