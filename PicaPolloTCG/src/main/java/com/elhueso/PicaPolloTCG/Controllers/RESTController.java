@@ -62,8 +62,8 @@ public class RESTController {
     }
     
     
-    @DeleteMapping(value = "/cards")
-    public ResponseEntity<Mono<String>> deleteCard(@PathVariable String id){
+    @DeleteMapping(value = "/delete_cards")
+    public ResponseEntity<Mono<String>> deleteCard(@RequestParam String id){
         cardService.delete(id);
         return ResponseEntity.ok(Mono.just("La carta ha sigut borrada."));
     }
